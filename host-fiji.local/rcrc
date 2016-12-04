@@ -1,0 +1,26 @@
+# Configuration for rcm
+
+# According to the BUGS section under `man 7 rcm`, it's recommended
+# to set the HOSTNAME manually for MacOS.
+#
+HOSTNAME="fiji.local"
+
+# Never symlink these files:
+#
+COPY_ALWAYS="ssh/id_* ssh/dreamhost* ssh/home* ssh/github* ssh/known_hosts ssh/env*"
+
+# rcm will ignore these:
+#
+EXCLUDES="README*"
+
+# default tags
+#
+TAGS="git perl ssh tmux zsh"
+
+# Will be symlinked instead of descended
+#
+SYMLINK_DIRS="bin tools oh-my-zsh ssh grc"
+
+# name these as listed. do not prepend a "."
+#
+UNDOTTED="bin tools"
