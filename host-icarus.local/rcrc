@@ -19,7 +19,7 @@ TAGS="git perl ssh tmux zsh"
 
 # Will be symlinked instead of descended
 #
-SYMLINK_DIRS="bin tools oh-my-zsh ssh"
+SYMLINK_DIRS="bin tools oh-my-zsh ssh grc"
 
 # name these as listed. do not prepend a "."
 #
