@@ -1,0 +1,52 @@
+#
+# dotphiles : https://github.com/dotphiles/dotphiles
+#
+# Defines environment variables.
+#
+# Authors:
+#   Ben O'Hara <bohara@gmail.com>
+#
+
+# Dont read global configs
+unsetopt GLOBAL_RCS
+
+# Customize to your needs...
+
+# Source environment settings
+source .zshenv
+
+# Add paths if they exist
+path=(
+  $HOME/bin
+  ~/ndn/dh/bin
+  ~/ndn/dh/sbin
+  ~/ndn/bin
+  /dh/bin
+  /ndn/dh/bin
+  /ndn/bin
+  $path
+)
+path=($^path(N))
+
+# Type "-I~/ndn/perl" for me:
+export PERL5LIB=~/ndn/perl/
+
+# For developing templates
+export DH_TEMPLATE_PREFIX=~/ndn/
+
+# Seemed to be missing?
+export TMPDIR=/tmp
+
+# To ensure proper runtime linking with shared libraries in your $HOME, rather
+# than messing around with env. vars perpetually it's easier to set one that
+# tells the linker (at link time) of alternate paths to look for shared
+# libraries (at runtime). At the same time, we should tell pkg-config where to
+# look for files it's interested in
+export PKG_CONFIG_PATH="$HOME/lib/pkgconfig/"
+export LD_RUN_PATH="$HOME/lib"
+
+# OSX can get bitchy and hang when sshfs is working.
+export FUSE_DEFAULT_DAEMON_TIMEOUT=3600
+
+export DSHOST=`/bin/hostname -s`
+
