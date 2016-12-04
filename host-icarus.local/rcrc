@@ -7,7 +7,7 @@ HOSTNAME="icarus.local"
 
 # Never symlink these files:
 #
-COPY_ALWAYS="ssh/id_* ssh/dreamhost* ssh/home* ssh/github*"
+COPY_ALWAYS="ssh/id_* ssh/dreamhost* ssh/home* ssh/github* ssh/known_hosts ssh/env*"
 
 # rcm will ignore these:
 #
