@@ -1,0 +1,42 @@
+# via http://www.railsonmaui.com/blog/2014/03/11/rocking-with-tmux-tmuxinator-and-iterm2-for-rails-development/
+#
+# First brew install tmux, gem install tmuxinator, and download item2
+# Copy this file here: ~/.tmuxinator/my_project.yml
+# Modify the paths (replace ~/my_project with your directory)
+# Invoke with
+#   mux project
+# Then hit 'Ctrl-a d' to detach
+# Then run 'tmux -CC attach'
+# Make sure that option for iterm2 is General --> tmux --> When attaching, open unrecognized windows in Tabs
+# Also, check option "Automatically hide the tmux client session after connecting"
+# alias beg='bundle exec guard'
+# define guard groups for spec, server, worker
+name: ndn
+# pre_window: cd ~/ndn
+root: ~/ndn
+
+windows:
+  - fubar:
+      # note: indented twice!
+      layout: main-horizontal
+      panes:
+        - top:
+          - mosh fubar
+          - cd ndn
+        - bottom:
+          - mosh fubar
+          - cd ndn
+  - db:
+      # note: indented twice!
+      layout: main-horizontal
+      panes:
+        - dbbrowser:
+          - mosh fubar
+          - dbc -b dreamhost
+        - dbc:
+          - mosh fubar
+          - dbc    dreamhost
+  - yakko:
+    - mosh yakko
+    - cd ndn
+
