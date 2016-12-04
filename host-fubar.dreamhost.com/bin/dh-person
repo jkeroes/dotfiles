@@ -1,0 +1,145 @@
+#!/usr/bin/env perl
+
+use 5.010;
+use strict;
+use warnings;
+use Ndn::People::Person;
+use YAML;
+use Getopt::Long qw/:config auto_abbrev auto_help/;
+
+my ($verbose, $history, $do_params, $do_inactive, $do_domains, $do_all, $help);
+GetOptions(
+	'params!'   => \$do_params,
+	'inactive!' => \$do_inactive,
+	'domains!'  => \$do_domains,
+	'all!'      => \$do_all,
+);
+
+# Turn on all options if $do_all is true
+if ($do_all) {
+	$do_domains = $do_inactive = $do_params = 1;
+}
+
+my @out;
+for my $person (@ARGV) {
+	my $Person = Ndn::People::Person->Load($person) or do {
+		warn "Can't load person $person";
+		next;
+	};
+
+	push @out, { $Person->username => person_details($Person) };
+}
+
+say Dump \@out;
+
+
+sub person_details {
+	my $Person = shift or die;
+	return {
+		username => $Person->username,
+		email    => $Person->primary_email,
+		status   => $Person->status,
+		accounts => [ person_accounts($Person) ],
+		$do_domains ? (domains  => [ person_domains($Person)]) : (),
+		$do_params  ? (params   => [ object_params($Person)])  : (),
+	};
+}
+
+# Returns parameters for any Ndn::Object subclass minus the private keys.
+sub object_params {
+	my $Object = shift or die;
+	die "Not an Ndn::Object" unless $Object->can('param_hash');
+
+	my $params = $Object->param_hash();
+
+	# delete "private" keys
+	my @bad_keys = grep { /^_/ } keys %$params;
+	delete $params->{$_} for @bad_keys;
+
+	return $params;
+}
+
+sub person_accounts {
+	my $Person = shift or die;
+	my @accounts;
+	for my $Account ($Person->Accounts) {
+		push @accounts, {
+			account_id => $Account->account_id,
+			status     => $Account->status,
+			name       => $Account->name,
+			owner      => $Account->owner,
+		}
+	}
+	return @accounts;
+}
+
+sub person_domains {
+	my $Person = shift or die;
+	my @Domains = $Person->Domains;
+	my @domains = map { domain_details($_->domain) } @Domains;
+	return @domains;
+}
+
+sub domain_details {
+	my $domain   = shift or die;
+	my $Domain   = Ndn::Dreamhost::Domain->Load($domain);
+	my $statuses = $do_inactive ? () : [qw/active changed/];
+	my @DSes     = $Domain->Services(undef, $statuses);
+
+	return {
+		# fix Odd number of elts in this anon hash:
+		$domain => [
+			map {
+				{
+					$do_inactive ? %$_ : _significant_values(%$_)
+				}
+			}
+			map {
+				{
+					status  => ($_->status . ' > ' . $_->{status}), # inherited status > DS->status
+					type    => $_->type     // undef,
+					home    => $_->home     // undef, # combine with service?
+					service => $_->service  // undef,
+					path    => $_->path     // undef,
+					php     => $_->type =~ /http|cgi/ ? $_->PHPVersion : undef,
+				}
+			} @DSes
+		]
+	};
+}
+
+# Given a hash, deletes keys if the values are undef.
+#
+sub _significant_values {
+	my %hash = @_;
+	my @keys = keys %hash;
+	my @sig_keys = grep { defined $hash{$_} && $hash{$_} } @keys;
+	return map { $_ => $hash{$_} } @sig_keys;
+}
+
+
+=head1 SYNOPSIS
+
+dh-person <options> <person> [person] ...
+
+Options:
+
+	--domains | -d                display person's domains
+	--inactive | -i               display inactive domains
+	--params | -p                 display Person params
+	--all | -a                    turn on all options
+	--help
+
+--params usage examples:
+
+	dh-person jkeroes             display info about Person jkeroes
+	dh-person -p jkeroes          display jkeroes's parameters
+	dh-person -d jkeroes          display jkeroes's active domains
+	dh-person -d -i jkeroes       display jkeroes's active and inactive domains
+	dh-person -a                  display everything about jkeroes
+
+	dh-person dallas josh         display info for two (or more) people
+
+=cut
+
+1;
