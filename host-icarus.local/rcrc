@@ -17,9 +17,9 @@ EXCLUDES="README*"
 #
 TAGS="git perl python ruby tmux zsh"
 
-# Will be symlinked instead sf descended
+# Will be symlinked instead of descended
 #
-SYMLINK_DIRS="bin tools"
+SYMLINK_DIRS="bin tools oh-my-zsh"
 
 # name these as listed. do not prepend a "."
 #
