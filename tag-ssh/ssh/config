@@ -1,0 +1,69 @@
+#
+# dotphiles : https://github.com/dotphiles/dotphiles
+#
+# Description:  Config for ssh client
+#
+# Authors:
+#   Ben O'Hara <bohara@gmail.com>
+#
+
+# Global Settings
+ForwardAgent no
+#VisualHostKey yes
+HashKnownHosts no
+#ConnectTimeout 2
+
+# My Hosts
+Host github github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github
+    IdentitiesOnly yes
+    ForwardAgent yes
+
+# These will only work if you fully qualify the domain name.
+Host *.dreamhost.com *.sd.dreamhost.com *.newdream.net
+    IdentityFile ~/.ssh/dreamhost
+    ForwardAgent yes
+
+Host yakko yakko.dreamhost.com
+    HostName yakko.sd.dreamhost.com
+    IdentityFile ~/.ssh/dreamhost
+    ForwardAgent yes
+
+Host fubar fubar.dreamhost.com
+    Hostname fubar.dreamhost.com
+    IdentityFile ~/.ssh/dreamhost
+    ForwardAgent yes
+
+Host git git.newdream.net
+    HostName git.newdream.net
+    IdentityFile ~/.ssh/dreamhost
+    Port 29418
+
+Host josker16 josker.dreamhosters.com
+    Hostname josker16.dreamhosters.com
+    User josker16
+
+Host cloud cloud.keroes.com
+    HostName cloud.keroes.com
+    User dhc-user
+    IdentityFile ~/.ssh/dreamhost
+
+Host fallendevil.com keroes.com pdxblues.com
+    User jkeroes2
+
+
+# Default
+Host *
+    User jkeroes
+    ServerAliveInterval 60
+    IdentityFile ~/.ssh/home-rsa
+    StrictHostKeyChecking ask
+    ServerAliveCountMax 6
+    ServerAliveInterval 30
+    KeepAlive yes
+    #ControlMaster auto
+    #ControlPath ~/.ssh/master/%r@%h:%p
+    #ControlPersist 8h
+
