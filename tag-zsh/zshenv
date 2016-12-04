@@ -12,9 +12,6 @@ unsetopt GLOBAL_RCS
 
 # Customize to your needs...
 
-# Source environment settings
-source .zshenv
-
 # Add paths if they exist
 path=(
   $HOME/bin
