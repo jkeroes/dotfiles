@@ -15,7 +15,7 @@ EXCLUDES="README*"
 
 # default tags
 #
-TAGS="git perl ssh tmux zsh"
+TAGS="work git perl ssh tmux zsh"
 
 # Will be symlinked instead of descended
 #
