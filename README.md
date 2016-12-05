@@ -15,11 +15,12 @@ MacOS Sierra (12.1) doesn't ship with a suitable ctags. Brew's version is fine.
 
 	brew install ctags
 
-### Set up iTerm
+### Set up iTerm for color
 
 1. Download repo from https://github.com/chriskempson/base16-iterm2 
 1. Go to iTerm | Profiles | Colors
 1. Import Color Preset eg base16-monokai.dark.256
+1. Set xterm-256color in Preferences | Profiles | Terminal | Report Terminal Type
 
 ## Ubuntu
 
