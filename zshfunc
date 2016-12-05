@@ -1,4 +1,4 @@
-gg()   { git grep -E }
+gg()   { git grep -E $* }
 ggt()  { gg -i $* -- '*.t' }
 ggtp() { gg -i $* -- '*.tp' }
 ggm()  { gg -i $* -- '*.pm' }
