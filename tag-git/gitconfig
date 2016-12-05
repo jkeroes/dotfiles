@@ -1,1 +1,250 @@
-/Users/jkeroes/.dotfiles/gitconfig
+#
+# dotphiles : https://github.com/dotphiles/dotphiles
+#
+# Git configuration.
+#
+# Authors:
+#   Ben O'Hara <bohara@gmail.com>
+#
+
+# Global Config
+[user]
+    name = "Joshua Keroes"
+    email = "joshua.keroes@dreamhost.com"
+    #signingkey = **Your GPG ID**
+
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+
+[color]
+    branch = always
+    diff = always
+    grep = always
+    interactive = always
+    pager = true
+    showbranch = auto
+    status = auto
+    ui = always
+
+[color "interactive"]
+    error = red bold
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red
+    new = green
+    whitespace = white reverse
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+    branch = magenta
+
+[core]
+    pager = less -FRSX
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    excludesfile = ~/.gitignore
+
+[diff]
+    tool = vimdiff
+
+[difftool]
+    prompt = false
+
+[merge]
+    tool = vimdiff
+
+[alias]
+    # branch
+    b  = branch
+    bc = checkout -b
+    bl = branch -v
+    bL = branch -av
+    bx = branch -d
+    bX = branch -D
+    bm = branch -m
+    bM = branch -M
+    bs = show-branch
+    bS = show-branch -a
+
+    # checkout/fetch/merge/push/rebase
+    # checkout
+    co  = checkout
+    co0 = checkout HEAD --
+    # fetch
+    f   = fetch
+    fm  = pull
+    fo  = fetch origin
+    # merge
+    m   = merge
+    mom = merge origin/master
+    # push
+    p   = push
+    pa  = push --all
+    pt  = push --tags
+    # rebase
+    r   = rebase
+    ra  = rebase --abort
+    rc  = rebase --continue
+    ri  = rebase --interactive --autosquash
+    ria   = -c core.editor=/bin/true -c sequence.editor=/bin/true rebase --interactive --autosquash
+    # rir   = rebase --interactive --autosquash --root
+    # rira  = -c core.editor=/bin/true -c sequence.editor=/bin/true rebase --interactive --autosquash --root
+    rs  = rebase --skip
+    rom = rebase origin/master
+
+    # commit
+    c      = commit -v
+    ca     = commit --all -v
+    cm     = commit --message
+    cam    = commit --all --message
+    camend = commit --amend --reuse-message HEAD
+    cundo  = reset --soft "HEAD^"
+    cp     = cherry-pick
+
+    # diff
+    d    = diff          # Diff working dir to index
+    ds   = diff --staged # Diff index to HEAD
+    dc   = diff --staged # Diff index to HEAD
+    dh   = diff HEAD     # Diff working dir and index to HEAD
+    hub  = browse
+    hubd = compare
+
+    # index
+    st = status
+    a  = add
+    ia = add
+    ir = reset
+
+    # log
+    l   = log --topo-order --pretty=format:'%C(yellow)%h %C(cyan)%cn %C(blue)%cr%C(reset) %s'
+    ls  = log --topo-order --stat --pretty=format:'%C(bold)%C(yellow)Commit:%C(reset) %C(yellow)%H%C(red)%d%n%C(bold)%C(yellow)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)%C(yellow)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'
+    ld  = log --topo-order --stat --patch --full-diff --pretty=format:'%C(bold)%C(yellow)Commit:%C(reset) %C(yellow)%H%C(red)%d%n%C(bold)%C(yellow)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)%C(yellow)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'
+    lg  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    lga = log --topo-order --all --graph --pretty=format:'%C(yellow)%h %C(cyan)%cn%C(reset) %s %C(red)%d%C(reset)%n'
+    lm  = log --topo-order --pretty=format:'%s'
+    lh  = shortlog --summary --numbered
+    llf = fsck --lost-found
+
+    lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+    lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+
+    hist    = log       --graph --pretty='[%C(cyan)%h%Creset] %ar - %s %C(bold cyan)%d%Creset'
+    histall = log --all --graph --pretty='[%C(cyan)%h%Creset] %ar - %s %C(bold cyan)%d%Creset'
+
+    # show
+    s  = show
+    sf = show --pretty="format:" --name-only
+
+    # remote
+    re  = remote
+    rel = remote --verbose
+    rea = remote add
+    rex = remote rm
+    rem = remote rename
+
+    # fixup/squash. see also --autosquash
+    # see http://is.gd/gSeOj; these are modified so if the commit being fixed
+    # up already has a 'fixup! ' prefix has that prefix preserved
+    fixup  = !sh -c 'git commit --no-gpg-sign -m  \"fixup! $(git log -1 --format='\\''%s'\\'' $@ | sed -e '\\''s/^fixup! //'\\'')\"' -
+    squash = !sh -c 'git commit --no-gpg-sign -m \"squash! $(git log -1 --format='\\''%s'\\'' $@ | sed -e '\\''s/^squash! //'\\'')\"' -
+
+    # http://gggritso.com/human-git-aliases
+    branches  = branch -a
+    tags      = tag
+    stashes   = stash list
+    precommit = diff --cached --diff-algorithm=minimal -w
+    unstage   = reset -q HEAD --
+    discard   = checkout --
+    uncommit  = reset --mixed HEAD~
+    amend     = commit --amend
+    nevermind = !git reset --hard HEAD && git clean -d -f
+
+    # gerrit review
+    #
+    # git review [branch_for_review]
+    # interface to pushing refs for review to Gerrit
+    # defaults to the tracked remote branch
+    # if the current branch is not tracking anything
+    # then defaults to master
+    review = "!review() {\
+        merge=$1;\
+        [ -z $merge ] && {\
+            branch=$(git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD));\
+            merge=$(git config --get branch.$branch.merge | cut -d/ -f3-);\
+        };\
+        [ -z $merge ] && merge=master;\
+        git push origin HEAD:refs/for/$merge;\
+    };\
+    review"
+
+    # gerrit verbose review
+    #
+    # git vreview [branch_for_review]
+    # interface to pushing refs for review to Gerrit
+    # defaults to the tracked remote branch
+    # if the current branch is not tracking anything
+    # then defaults to master
+    vreview = "!review() {\
+        set -x;\
+        merge=$1;\
+        [ -z $merge ] && {\
+            branch=$(git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD));\
+            merge=$(git config --get branch.$branch.merge | cut -d/ -f3-);\
+        };\
+        [ -z $merge ] && merge=master;\
+        git push origin HEAD:refs/for/$merge;\
+    };\
+review"
+
+    # aliases
+    alias = config --get-regexp ^alias\\.
+
+    # who what where
+    whatpath        = !echo $PATH
+    oldest-ancestor = !zsh -c 'diff -u <(git rev-list --first-parent \"${1:-master}\") <(git rev-list --first-parent \"${2:-HEAD}\") | sed -ne \"s/^ //p\" | head -1' -
+    diverges        = !zsh -c 'git rev-list --boundary ... | grep ^- | cut -c2-'
+
+[push]
+    default = matching
+    # default = upstream
+
+[url "git@github.com:"]
+    insteadof = github:
+
+[credential]
+    helper = osxkeychain
+
+[help]
+    autocorrect = 1
+
+[diff "gz"]
+    # behold, the power of zcat!
+    textconv = zcat
+    # and the lovely laziness!
+    cachetextconv = true
+    binary = true
+    
+[filter "lfs"]
+    clean = git lfs clean %f
+    smudge = git lfs smudge %f
+    required = true
+
+[rerere]
+    enabled = true
+
+# Enable bitmap pack index functionality for speed boost.
+[repack]
+    writeBitmaps = true
+
+[receive]
+    denyDeleteCurrent = true
+    shallowUpdate = true
