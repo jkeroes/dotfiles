@@ -1,3 +1,6 @@
 :set tabstop=4
 :set shiftwidth=4
 :set expandtab
+
+let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme base16-monokai
