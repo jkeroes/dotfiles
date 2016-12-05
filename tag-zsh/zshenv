@@ -71,9 +71,11 @@ else
     esac
 fi
 
+# oh-my-zsh
 if [ -d $HOME/.oh-my-zsh ]; then
-	export ZSH=$HOME/.oh-my-zsh
-	export ZSH_THEME=agnoster
+    export ZSH=$HOME/.oh-my-zsh
+    export ZSH_THEME=agnoster
+    export DISABLE_UPDATE_PROMPT=true
 fi
 
 # Colors
