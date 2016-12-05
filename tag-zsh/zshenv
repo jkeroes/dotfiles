@@ -14,18 +14,18 @@ unsetopt GLOBAL_RCS
 
 # Add paths if they exist
 path=(
-  $HOME/bin
-  ~/ndn/dh/bin
-  ~/ndn/dh/sbin
-  ~/ndn/bin
-  /dh/bin
-  /ndn/dh/bin
-  /ndn/bin
-  /usr/local/bin
-  /usr/bin
-  /usr/local/sbin
-  /usr/sbin
-  $path
+    $HOME/bin
+    ~/ndn/dh/bin
+    ~/ndn/dh/sbin
+    ~/ndn/bin
+    /dh/bin
+    /ndn/dh/bin
+    /ndn/bin
+    /usr/local/bin
+    /usr/bin
+    /usr/local/sbin
+    /usr/sbin
+    $path
 )
 path=($^path(N))
 
