@@ -1,13 +1,16 @@
 # oh-my-zsh
 
 # unix
-plugins+=(common-aliases gnu-utils sudo systemd)
+plugins+=(common-aliases command-not-found cp gnu-utils sudo systemd)
 
 # osx
 plugins+=(osx sublime)
 
+# git
+plugins+=(git git-extras github gitignore git-remote-branch tig branch)
+
 # dev
-plugins+=(git git-extras github gitignore branch jira)
+plugins+=(cpanm jira jsontools)
 
 # virt
 plugins+=(docker vagrant)
@@ -16,8 +19,9 @@ plugins+=(docker vagrant)
 plugins+=(ssh-agent mosh tmux tmuxinator)
 
 # others
-# plugins+=(# python pip pep8)
+# plugins+=(python pip pep8)
 # plugins+=(ruby rbenv rake)
+
 
 # @work
 test -d /ndn/etc && source /ndn/etc/ndnperl.rc
