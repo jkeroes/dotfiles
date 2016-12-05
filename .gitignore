@@ -1,0 +1,10 @@
+# privkeys
+*/ssh/dreamhost
+*/ssh/github
+*/ssh/home
+*/ssh/home-rsa
+*/ssh/id_*
+
+# dynamic files
+*/ssh/env*
+*/ssh/known_hosts
