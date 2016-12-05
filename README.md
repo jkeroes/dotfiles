@@ -18,3 +18,9 @@ run `ssh-agent` and `ssh-add ~/.ssh/github`. You may need to bootstrap your .ssh
 git clone git@github.com:jkeroes/dotfiles.git ~/.dotfiles
 rcdn # delete old dotfiles
 rcup -v
+
+## Set up terminal
+
+1. Download repo from https://github.com/chriskempson/base16-iterm2
+2. In iTerm | Profiles | Colors:
+	Import Color Preset eg base16-monokai.dark.256

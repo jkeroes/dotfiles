@@ -3,7 +3,7 @@
 # According to the BUGS section under `man 7 rcm`, it's recommended
 # to set the HOSTNAME manually for MacOS.
 #
-HOSTNAME="imp.local"
+HOSTNAME="fubar"
 
 # Never symlink these files:
 #

@@ -39,4 +39,11 @@ test -e ~/.zshfunc && source ~/.zshfunc
 # @work, $lastdir would be better but most of the time, this is good enough
 test -d /ndn && cd ~/ndn
 
+# oh-my-zsh
 test -d ~/.oh-my-zsh && source ~/.oh-my-zsh/oh-my-zsh.sh
+
+# colors
+[ -n "$PS1" ] \
+	&& [ -s $BASE16_SHELL/profile_helper.sh ] \
+	&& eval "$($BASE16_SHELL/profile_helper.sh)" \
+	&& source ~/.config/base16-shell/scripts/base16-monokai.sh
