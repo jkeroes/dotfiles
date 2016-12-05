@@ -1,0 +1,32 @@
+# git
+alias grbr='for branch in `git branch -r | grep -v HEAD`;do echo -e `git show --format="%ci %cr" $branch | head -n 1` \\t$branch; done | sort -r'
+
+# move current branch on to origin/master
+alias rebase='git rebase origin/master' 
+
+# push to gerrit and list active all reviews
+alias r='git review && rvs'
+
+# thinkos and typos
+alias more=less
+alias 'pkill -fl'='pkill -f'
+
+# just beep my phone when something's ready
+alias pushdone='pushbullet push i6 note done'
+
+# work
+if [ -d /ndn ]; then
+	# $DEV_ENV is defined in .zshenv 
+	alias domy="${DEV_ENV}"
+	alias mysc="/usr/bin/sudo ${DEV_ENV} ${HOME}/ndn/dh/bin/servicectl"
+	alias scdb="/usr/bin/sudo ${DEV_ENV} perl -d ${HOME}/ndn/dh/bin/servicectl"
+	alias myscdb="scdb"
+
+    alias envperl="/opt/ndn-perl/current/bin/perl"
+    alias envperldoc="/opt/ndn-perl/current/bin/perldoc"
+
+    # gerrit API shortcut
+    alias gerrit="ssh -p 29418 git.newdream.net gerrit"
+
+    # alias dbc="PATH=/opt/ndn-perl/jkeroes/perl/bin:$PATH /opt/ndn-perl/jkeroes/perl/bin/perl -I/usr/local/ndn/perl ~jkeroes/ndn/dh/bin/dbc"
+fi
