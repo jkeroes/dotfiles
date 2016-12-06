@@ -8,6 +8,7 @@ plugins+=(osx sublime)
 
 # git
 plugins+=(git git-extras github gitignore git-remote-branch tig branch)
+unalias gg # I prefer my `git grep` over plugin/git's `git gui citool`
 
 # dev
 plugins+=(cpanm jira jsontools)
