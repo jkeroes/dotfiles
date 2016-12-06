@@ -1,0 +1,138 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use File::Find;
+use Getopt::Long qw/:config auto_abbrev auto_help/;
+
+my $verbose = 0;
+my $where   = "$ENV{HOME}/bin";
+my $force   = 0;
+GetOptions(
+	'verbose!' => \$verbose,
+	'where=s'  => \$where,
+	'force!'   => \$force,
+	# --help is supplied by auto_help and returns the POD at the bottom.
+);
+die "$where should be a directory\n" unless -d $where;
+
+my @dotfiles_dirs = get_dotfiles_dirs();
+print "DOTFILES_DIRS: @dotfiles_dirs\n" if $verbose;
+
+my @rcrc_files = get_rcrc_files(@dotfiles_dirs);
+print "rcrc files: @rcrc_files\n" if $verbose;
+
+my @hostnames = get_hostnames(@rcrc_files);
+push @hostnames, @ARGV;
+print "hostnames: @hostnames\n" if $verbose;
+
+build_installers(@hostnames);
+
+exit;
+
+# Use one of the rcm tools in extra-verbose mode to see where 
+# the DOTFILES_DIRS live.
+#
+sub get_dotfiles_dirs {
+	my @lines = `lsrc -vv 2>&1`;
+	die "Can't run lsrc. Is rcm installed?" if $?;
+
+	chomp @lines;
+
+	my @dirs = grep { /^DOTFILES_DIRS: \s+ (.+)$/x; $_ = $1 } @lines;
+
+	return @dirs;
+}
+
+# Search for rcrc files under one or more dotfiles directories.
+#
+sub get_rcrc_files {
+	my @dirs = @_;
+
+	my @files;
+	find(
+		sub { push @files, $File::Find::name if $_ eq 'rcrc' },
+		@dirs,
+	);
+
+	return @files;
+}
+
+# Search for hostnames from the rcrc files on lines that match:
+# HOSTNAME="foo"
+# HOSTNAME=foo
+# HOSTNAME   =  "foo"
+# HOSTNAME   =  foo
+#
+sub get_hostnames {
+	my @files = @_;
+
+	my @hostnames;
+	for my $file (@files) {
+		open my $fh, $file or die "Can't open $file: $!";
+		while (<$fh>) {
+			my ($hostname) = /^HOSTNAME \s* = \s* ['"]? (.+?) ['"]? $/x;
+			if ($hostname) {
+				push @hostnames, $hostname;
+				last;
+			}
+		}
+		close $fh;
+	}
+
+	return @hostnames;
+}
+
+# Let rcup do the heavy lifting. Dump all scripts into the $where directory.
+#
+sub build_installers {
+	my @hostnames = @_;
+
+	for my $hostname (sort @hostnames) {
+		my $script = "$where/rcup-$hostname.sh";
+
+		if (-e $script && !$force) {
+			warn "Cowardly refusing to overwrite $script without --force\n";
+			next;
+		}
+
+		my $cmd = "rcup -B $hostname -g > $script";
+		print "Running: $cmd\n" if $verbose;
+		system $cmd;
+		warn "error running `$cmd`: $?" if $?;
+	}
+}
+
+__END__
+
+=head1 SYNOPSIS
+
+build-rcup-installers [ OPTIONS ] [ HOSTNAMES ]
+
+Options:
+
+  -w PATH | --where=PATH     output location for installer scripts [default: ~/bin]
+
+  -f | --force               overwrite existing installer scripts
+  --no-force                 do not overwrite existing installer scripts [default]
+
+  -v | --verbose             print extra info while running
+  -h | --help                show this documentation
+
+Create self-contained installers that can run rcup(1) without that file being
+on the system. If there are pre-existing files, they will be overwritten.
+
+Looks for hostnames defined in all dotfiles' rcrc files.
+
+Accepts additional hostname args on the command-line (for example, if you
+don't define every hostname in a separate rcrc file, then list them manually
+in @ARGV to build a script for each).
+
+=head2 EXAMPLES
+
+    build-rcup-installers              - build installers for predefined hostnames
+    build-rcup-installers foo bar baz  - also build installers for these hostnames
+	build-rcup-installers --force      - overwrite pre-existing installer scripts
+	build-rcup-installers --verbose    - print what we're doing as we're doing it
+
+=cut
