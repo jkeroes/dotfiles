@@ -17,9 +17,11 @@ EXCLUDES="README*"
 #
 TAGS="work git perl ssh tmux zsh"
 
-# Will be symlinked instead of descended
+# Will be symlinked instead of descended. bin/ and ssh/ are not present
+# in this list because we want them to be standard directories in ~
+# with symlinked files inside..
 #
-SYMLINK_DIRS="bin config tools oh-my-zsh ssh grc vim"
+SYMLINK_DIRS="config oh-my-zsh grc vim"
 
 # name these as listed. do not prepend a "."
 #
