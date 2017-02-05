@@ -7,7 +7,7 @@ plugins+=(common-aliases command-not-found cp gnu-utils sudo systemd)
 plugins+=(osx sublime)
 
 # git
-plugins+=(git git-extras github gitignore git-remote-branch tig branch)
+plugins+=(git git-extras gitignore git-remote-branch tig branch)
 
 # dev
 plugins+=(cpanm jira jsontools)
@@ -21,7 +21,7 @@ plugins+=(ssh-agent mosh tmux tmuxinator)
 # others
 # plugins+=(python pip pep8)
 # plugins+=(ruby rbenv rake)
-
+# plugins+=(hub)
 
 # @work
 test -d /ndn/etc && source /ndn/etc/ndnperl.rc
