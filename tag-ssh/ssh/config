@@ -38,6 +38,7 @@ Host fubar fubar.dreamhost.com
 
 Host git git.newdream.net
     HostName git.newdream.net
+    KexAlgorithms +diffie-hellman-group1-sha1
     IdentityFile ~/.ssh/dreamhost
     Port 29418
 
