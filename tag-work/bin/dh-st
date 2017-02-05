@@ -20,7 +20,8 @@ if (!$orig_spec) {
 }
 
 # Missing colon -> treat as a machine/cluster name
-my $spec     = "$orig_spec:%" if $orig_spec !~ /:/;
+my $spec;
+$spec     = "$orig_spec:%" if $orig_spec !~ /:/;
 my @Services = Ndn::Dreamhost::Service::Find($spec || $orig_spec);
 
 # Didn't find anything. Try searching for service types next.
