@@ -54,22 +54,8 @@ export FUSE_DEFAULT_DAEMON_TIMEOUT=3600
 
 export DSHOST=`/bin/hostname -s`
 
-# Use Sublime Text for local work and vim over ssh
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    export EDITOR=vim
-    export VISUAL=vim
-else
-    case $(ps -o comm= -p $PPID) in
-        sshd|*/sshd)
-            export EDITOR=vim
-            export VISUAL=vim    
-            ;;
-        *)
-            export EDITOR=subl
-            export VISUAL=subl
-            ;;
-    esac
-fi
+export EDITOR=vim
+export VISUAL=vim
 
 # oh-my-zsh
 if [ -d $HOME/.oh-my-zsh ]; then
