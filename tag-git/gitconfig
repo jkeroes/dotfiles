@@ -158,15 +158,18 @@
     squash = !sh -c 'git commit --no-gpg-sign -m \"squash! $(git log -1 --format='\\''%s'\\'' $@ | sed -e '\\''s/^squash! //'\\'')\"' -
 
     # http://gggritso.com/human-git-aliases
+    # https://github.com/gggritso/dotfiles/blob/master/gitconfig.symlink
     branches  = branch -a
     tags      = tag
     stashes   = stash list
+    remotes   = remote -v
     precommit = diff --cached --diff-algorithm=minimal -w
     unstage   = reset -q HEAD --
     discard   = checkout --
     uncommit  = reset --mixed HEAD~
     amend     = commit --amend
     nevermind = !git reset --hard HEAD && git clean -d -f
+    unmerged  = diff --name-only --diff-filter=U
 
     # gerrit review
     #
