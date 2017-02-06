@@ -40,6 +40,7 @@ Host git git.newdream.net
     HostName git.newdream.net
     KexAlgorithms +diffie-hellman-group1-sha1
     IdentityFile ~/.ssh/dreamhost
+    KexAlgorithms +diffie-hellman-group1-sha1
     Port 29418
 
 Host josker16 josker.dreamhosters.com
