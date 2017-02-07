@@ -17,6 +17,8 @@ plugins+=(docker vagrant)
 
 # remote
 plugins+=(ssh-agent mosh tmux tmuxinator)
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+zstyle :omz:plugins:ssh-agent identities dreamhost home-rsa github
 
 # others
 # plugins+=(python pip pep8)
@@ -42,10 +44,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 	&& eval "$($BASE16_SHELL/profile_helper.sh)" \
 	&& source ~/.config/base16-shell/scripts/base16-monokai.sh
 
-# Load aliases and functions
-test -e ~/.alias && source ~/.alias
-test -e ~/.zshfunc && source ~/.zshfunc
-
 # @work, $lastdir would be better but most of the time, this is good enough
 test -d /ndn && cd ~/ndn
 
@@ -53,5 +51,13 @@ test -d /ndn && cd ~/ndn
 test -d ~/.oh-my-zsh && source ~/.oh-my-zsh/oh-my-zsh.sh
 
 # fix aliases I do not care for
-unalias gg # git grep is more useful to me than the git plugin's git gui thing
 
+# git grep is more useful to me than the git plugin's git gui thing
+alias gg > /dev/null && unalias gg 
+
+# I prefer my `git grep` over plugin/git's `git gui citool`
+alias gh > /dev/null && unalias gh
+
+# Load aliases and functions
+test -e ~/.alias && source ~/.alias
+test -e ~/.zshfunc && source ~/.zshfunc
