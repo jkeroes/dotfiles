@@ -1,0 +1,28 @@
+# Configuration for rcm
+
+# According to the BUGS section under `man 7 rcm`, it's recommended
+# to set the HOSTNAME manually for MacOS.
+#
+HOSTNAME="tarfu"
+
+# Never symlink these files:
+#
+COPY_ALWAYS="ssh/id_* ssh/dreamhost* ssh/home* ssh/github* ssh/known_hosts ssh/env*"
+
+# rcm will ignore these:
+#
+EXCLUDES="README*"
+
+# default tags
+#
+TAGS="work git perl ssh tmux zsh"
+
+# Will be symlinked instead of descended. bin/ and ssh/ are not present
+# in this list because we want them to be standard directories in ~
+# with symlinked files inside..
+#
+SYMLINK_DIRS="config oh-my-zsh grc vim"
+
+# name these as listed. do not prepend a "."
+#
+UNDOTTED="bin tools"
