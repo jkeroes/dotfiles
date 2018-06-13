@@ -52,6 +52,7 @@
     pager = less -FRSX
     whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
     excludesfile = ~/.gitignore
+	editor = code --wait
 
 [diff]
     tool = vimdiff
@@ -95,7 +96,7 @@
     ra  = rebase --abort
     rc  = rebase --continue
     ri  = rebase --interactive --autosquash
-    ria   = -c core.editor=/bin/true -c sequence.editor=/bin/true rebase --interactive --autosquash
+    ria   = -c core.editor=/usr/bin/true -c sequence.editor=/usr/bin/true rebase -i --autosquash
     # rir   = rebase --interactive --autosquash --root
     # rira  = -c core.editor=/bin/true -c sequence.editor=/bin/true rebase --interactive --autosquash --root
     rs  = rebase --skip
@@ -217,7 +218,7 @@ review"
     diverges        = !zsh -c 'git rev-list --boundary ... | grep ^- | cut -c2-'
 
 [push]
-    default = matching
+    default = current
     # default = upstream
 
 [url "git@github.com:"]
@@ -251,3 +252,5 @@ review"
 [receive]
     denyDeleteCurrent = true
     shallowUpdate = true
+[branch]
+	autosetuprebase = always

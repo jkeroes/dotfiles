@@ -13,7 +13,7 @@ plugins+=(git git-extras gitignore git-remote-branch tig branch)
 plugins+=(cpanm jira jsontools)
 
 # virt
-plugins+=(docker vagrant)
+plugins+=(docker docker-compose vagrant)
 
 # remote
 plugins+=(ssh-agent mosh tmux tmuxinator)
@@ -24,6 +24,15 @@ zstyle :omz:plugins:ssh-agent identities dreamhost home-rsa github
 # plugins+=(python pip pep8)
 # plugins+=(ruby rbenv rake)
 # plugins+=(hub)
+
+# Requires install:
+# git clone https://github.com/zdharma/fast-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+plugins+=(fast-syntax-highlighting)
+
+# Requires install:
+# git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+plugins+=(zsh-autosuggestions)
+
 
 # @work
 test -d /ndn/etc && source /ndn/etc/ndnperl.rc
@@ -50,14 +59,16 @@ test -d /ndn && cd ~/ndn
 # oh-my-zsh
 test -d ~/.oh-my-zsh && source ~/.oh-my-zsh/oh-my-zsh.sh
 
-# fix aliases I do not care for
-
-# git grep is more useful to me than the git plugin's git gui thing
-alias gg > /dev/null && unalias gg 
-
-# I prefer my `git grep` over plugin/git's `git gui citool`
-alias gh > /dev/null && unalias gh
-
 # Load aliases and functions
 test -e ~/.alias && source ~/.alias
 test -e ~/.zshfunc && source ~/.zshfunc
+
+if ($SSH_TTY); then
+    # I have ssh'd to another host.
+    export EDITOR='vim'
+    export VISUAL='vim'
+else
+    # set options for localhost
+    export EDITOR='code -w'
+    export VISUAL='code -w'
+fi

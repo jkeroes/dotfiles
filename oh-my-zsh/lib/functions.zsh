@@ -25,7 +25,9 @@ function open_command() {
   case "$OSTYPE" in
     darwin*)  open_cmd='open' ;;
     cygwin*)  open_cmd='cygstart' ;;
-    linux*)   open_cmd='xdg-open' ;;
+    linux*)   [[ $(uname -a) =~ "Microsoft" ]] && \
+                open_cmd='cmd.exe /c start' || \
+                open_cmd='xdg-open' ;;
     msys*)    open_cmd='start ""' ;;
     *)        echo "Platform $OSTYPE not supported"
               return 1
@@ -86,7 +88,7 @@ function default() {
 }
 
 #
-# Set enviroment variable "$1" to default value "$2" if "$1" is not yet defined.
+# Set environment variable "$1" to default value "$2" if "$1" is not yet defined.
 #
 # Arguments:
 #    1. name - The env variable to set

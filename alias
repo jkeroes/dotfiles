@@ -1,25 +1,56 @@
-# git
-alias gh="git hist --all"
+# clean up after OMZ git.plugin.zsh aliases
+alias gg    > /dev/null && unalias gg     # dislike git gui
+alias gh    > /dev/null && unalias gh     # dislike `git gui citool`
+alias gcmsg > /dev/null && unalias gcmsg  # prefer gcm family
+
+# My git aliases
+
+## aka glol:
+alias gh="git log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+## aka glola:
+alias gha="git log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all"
+
+## breaks ghostscript, if you care.
 alias gs="git show"
 
+## aka gdca:
+alias gdc="git diff --cached"
+
+## see also: gcb
+alias gcob="git checkout -b"
+
+## TODO: test. show remote branches, sorted by age?
 alias grbr='for branch in `git branch -r | grep -v HEAD`;do echo -e `git show --format="%ci %cr" $branch | head -n 1` \\t$branch; done | sort -r'
 
-# move current branch on to origin/master
-alias rebase='git rebase origin/master' 
+## More commit aliases!
+alias gcm="git commit -m"
+alias gcam="git commit -a -m"
+alias 'gcm!'="git commit --amend -m"
 
-# push to gerrit and list active all reviews
+# OMZ commit alias quickref:
+# 'gc!'   ='git commit -v    --amend'
+# 'gca!'  ='git commit -v -a --amend'
+# 'gcn!'  ='git commit -v    --amend --no-edit' # -v adds nothing.
+# 'gcan!' ='git commit -v -a --amend --no-edit' # -v adds nothing.
+
+## move current branch on to origin/master
+alias rebase='git rebase origin/master'
+
+# TODO: delete
+## push to gerrit and list active all reviews
 alias r='git review && rvs'
 
-# thinkos and typos
+## thinkos and typos
 alias more=less
 alias 'pkill -fl'='pkill -f'
 
 # just beep my phone when something's ready
-alias pushdone='pushbullet push i6 note done'
+alias pushdone='pushbullet push i8 note done'
 
 # work
 if [ -d /ndn ]; then
-	# $DEV_ENV is defined in .zshenv 
+	# $DEV_ENV is defined in .zshenv
 	alias domy="${DEV_ENV}"
 	alias mysc="/usr/bin/sudo ${DEV_ENV} ${HOME}/ndn/dh/bin/servicectl"
 	alias scdb="/usr/bin/sudo ${DEV_ENV} perl -d ${HOME}/ndn/dh/bin/servicectl"
@@ -29,6 +60,7 @@ if [ -d /ndn ]; then
     alias envperldoc="/opt/ndn-perl/current/bin/perldoc"
 
     # gerrit API shortcut
+    # TODO: delete
     alias gerrit="ssh -p 29418 git.newdream.net gerrit"
 
     # alias dbc="PATH=/opt/ndn-perl/jkeroes/perl/bin:$PATH /opt/ndn-perl/jkeroes/perl/bin/perl -I/usr/local/ndn/perl ~jkeroes/ndn/dh/bin/dbc"
